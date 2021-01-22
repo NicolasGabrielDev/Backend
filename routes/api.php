@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AutenticadorControlador;
+use App\Http\Controllers\SessaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::prefix('auth')->group(function() {
         Route::post('logout', [AutenticadorControlador::class, 'logout']);
     });
 });
+
+Route::post('sessao', [SessaoController::class, 'store'])->middleware('auth:api');
+Route::post('entrar-sessao', [SessaoController::class, 'login'])->middleware('auth:api');
