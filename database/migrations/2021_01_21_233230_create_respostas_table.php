@@ -16,10 +16,9 @@ class CreateRespostasTable extends Migration
         Schema::create('respostas', function (Blueprint $table) {
             $table->id();
             $table->string('resposta');
-            $table->string('situacao')->default('NR');
-            $table->unsignedBigInteger('sessao_id');
+            $table->unsignedBigInteger('pergunta_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('sessao_id')->references('id')->on('sessaos');
+            $table->foreign('pergunta_id')->references('id')->on('perguntas');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

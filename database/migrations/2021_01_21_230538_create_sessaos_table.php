@@ -17,6 +17,7 @@ class CreateSessaosTable extends Migration
             $table->id();
             $table->string('nome');
             $table->char('codigo', 8)->unique();
+            $table->string('estado')->default('on');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

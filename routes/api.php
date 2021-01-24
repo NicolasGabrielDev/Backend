@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AutenticadorControlador;
+use App\Http\Controllers\PerguntaController;
+use App\Http\Controllers\RespostaController;
 use App\Http\Controllers\SessaoController;
 
 /*
@@ -30,3 +32,7 @@ Route::prefix('auth')->group(function() {
 
 Route::post('sessao', [SessaoController::class, 'store'])->middleware('auth:api');
 Route::post('entrar-sessao', [SessaoController::class, 'login'])->middleware('auth:api');
+Route::get('perguntas', [PerguntaController::class, 'index'])->middleware('auth:api');
+Route::post('criar-pergunta', [PerguntaController::class, 'store'])->middleware('auth:api');
+Route::post('criar-resposta', [RespostaController::class, 'store'])->middleware('auth:api');
+Route::get('respostas', [RespostaController::class, 'admin_respostas'])->middleware('auth:api');

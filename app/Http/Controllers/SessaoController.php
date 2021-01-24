@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Sessao;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SessaoController extends Controller
 {
@@ -14,12 +13,13 @@ class SessaoController extends Controller
         ]);
         
         $codigo = $request->codigo;
-        $dados = DB::table('sessaos')->where('codigo', $codigo)->first();
+        $dados = Sessao::where("codigo", $codigo)->get();
+        
         if(isset($dados)) {
             $token = bin2hex(random_bytes(64));
             return response()->json([
                 'token' => $token,
-                'sessao_id' => $dados->id
+                'res' => $dados,
             ]);
         } else {
             return response()->json([
@@ -28,7 +28,7 @@ class SessaoController extends Controller
         }
     }
     public function index(){
-
+        
     }
     public function create(){
 

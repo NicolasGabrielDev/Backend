@@ -3,19 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pergunta;
+use App\Models\Sessao;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PerguntaController extends Controller{
     public function index(Request $request){
-        $sessao_id = $request->sessao_id;
-        $dados = DB::table('perguntas')->where('sessao_id', $sessao_id);
-        if(isset($dados)) {
-            return response()->json(json_encode($dados), 200);
-        } else {
+        $codigo = $request->codigo;
+        $user_id = auth('api')->user()->id;
+
+        $admin = Sessao::with('perguntas')->where('codigo', '=', $codigo)->where('user_id', '=', $user_id)->first();
+
+        if(isset($admin)) {
             return response()->json([
-                'res' => 'Nenhuma pergunta encontrada!'
-            ], 401);
+                'res' => $admin,
+                'usuario' => 'admin'
+            ]);
+        } else {
+            $dados = Sessao::with('perguntas')->where('codigo', '=', $codigo)->first();
+            return response()->json([
+                'res' => $dados,
+                'usuario' => 'comum'
+            ]);
         }
     }
 
@@ -25,14 +33,12 @@ class PerguntaController extends Controller{
     }
     public function store(Request $request){
         $request->validate([
-            'enunciado' => 'required|string',
             'tipo' => 'required|string',
             'quantidade' => 'required',
             'sessao_id' => 'required'
         ]);
 
         $dados = new Pergunta([
-            'enunciado' => $request->enunciado,
             'tipo' => $request->tipo,
             'quantidade' => $request->quantidade,
             'sessao_id' => $request->sessao_id

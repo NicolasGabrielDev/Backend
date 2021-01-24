@@ -9,6 +9,14 @@ class Sessao extends Model
 {
     use HasFactory;
 
+    public function perguntas() {
+        return $this->hasMany(Pergunta::class);
+    }
+
+    public function respostas() {
+        return $this->hasManyThrough(Resposta::class, Pergunta::class);
+    }
+
     protected $fillable = [
         'nome',
         'codigo',
