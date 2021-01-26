@@ -32,7 +32,7 @@ Route::prefix('auth')->group(function() {
 
 Route::post('sessao', [SessaoController::class, 'store'])->middleware('auth:api');
 Route::post('entrar-sessao', [SessaoController::class, 'login'])->middleware('auth:api');
-Route::get('perguntas', [PerguntaController::class, 'index'])->middleware('auth:api');
+Route::post('perguntas', [PerguntaController::class, 'index'])->middleware('auth:api');
 Route::post('criar-pergunta', [PerguntaController::class, 'store'])->middleware('auth:api');
 Route::post('criar-resposta', [RespostaController::class, 'store'])->middleware('auth:api');
-Route::get('respostas', [RespostaController::class, 'admin_respostas'])->middleware('auth:api');
+Route::post('respostas', [RespostaController::class, 'admin_respostas'])->middleware('auth:api');
