@@ -13,7 +13,7 @@ class SessaoController extends Controller
         ]);
         
         $codigo = $request->codigo;
-        $dados = Sessao::where("codigo", $codigo)->get();
+        $dados = Sessao::where("codigo", $codigo)->first();
         
         if(isset($dados)) {
             $token = bin2hex(random_bytes(64));

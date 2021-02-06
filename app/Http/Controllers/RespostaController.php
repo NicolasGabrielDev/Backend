@@ -57,7 +57,7 @@ class RespostaController extends Controller
 
         $user_id = auth('api')->user()->id;
 
-        $dados = Resposta::where('user_id', $user_id)->where('pergunta_id', $request->pergunta_id)->get();
+        $dados = Resposta::where('user_id', $user_id)->where('pergunta_id', $request->pergunta_id)->first();
         if (isset($dados)) {
             return response()->json([
                 'res' => "Você já respondeu essa pergunta!"
