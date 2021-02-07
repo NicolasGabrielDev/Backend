@@ -3,51 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resposta;
-use App\Models\Sessao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RespostaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     * 
-     * 
-     */
-
-    public function admin_respostas(Request $request)
+    public function receber_respostas(Request $request)
     {
         $request->validate([
-            'codigo' => 'required|string',
+            'pergunta_id' => 'required',
         ]);
+        $pergunta_id = $request->pergunta_id;
 
-        $codigo = $request->codigo;
-
-        $dados = Sessao::with('perguntas')->with('respostas')->where('codigo', $codigo)->get();
-        return response()->json($dados);
+        $dados = Resposta::select("resposta", DB::raw('count(*) as total'))
+            ->where("pergunta_id", $pergunta_id)
+            ->orderBy("resposta")
+            ->groupBy("resposta")
+            ->get();
+        
+        if(count($dados)>0){
+            return response()->json([
+                "res" => $dados
+            ]);
+        } else {
+            return response()->json([
+                "res" => "Ninguém respondeu ainda :("
+            ]);
+        }
     }
 
-    public function index()
-    {
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -74,49 +59,5 @@ class RespostaController extends Controller
                 'res' => "Resposta enviada com sucesso!"
             ], 200);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
