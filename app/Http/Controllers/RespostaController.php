@@ -21,16 +21,15 @@ class RespostaController extends Controller
             ->groupBy("resposta")
             ->get();
         
-        return response()->json($dados);
-        // if(count($dados)>0){
-        //     return response()->json([
-        //         "res" => $dados
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         "res" => "Ninguém respondeu ainda :("
-        //     ]);
-        // }
+        if(count($dados)>0){
+            return response()->json([
+                "res" => $dados
+            ]);
+        } else {
+            return response()->json([
+                "res" => "Ninguém respondeu ainda :("
+            ]);
+        }
     }
 
 
