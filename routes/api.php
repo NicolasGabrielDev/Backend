@@ -35,4 +35,4 @@ Route::post('entrar-sessao', [SessaoController::class, 'login'])->middleware('au
 Route::post('perguntas', [PerguntaController::class, 'index'])->middleware('auth:api');
 Route::post('criar-pergunta', [PerguntaController::class, 'store'])->middleware('auth:api');
 Route::post('criar-resposta', [RespostaController::class, 'store'])->middleware('auth:api');
-Route::post('respostas', [RespostaController::class, 'admin_respostas'])->middleware('auth:api');
+Route::post('respostas', [RespostaController::class, 'receber_respostas'])->middleware('auth:api');
