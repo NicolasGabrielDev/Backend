@@ -15,12 +15,7 @@ class RespostaController extends Controller
         ]);
         $pergunta_id = $request->pergunta_id;
 
-        $dados = Resposta::select("resposta", DB::raw('count(*) as total'))
-            ->where("pergunta_id", $pergunta_id)
-            ->orderBy("resposta")
-            ->groupBy("resposta")
-            ->get();
-        
+        $dados = Resposta::select("resposta")->where("pergunta_id", $pergunta_id)->get();
         if(count($dados)>0){
             return response()->json([
                 "res" => $dados
