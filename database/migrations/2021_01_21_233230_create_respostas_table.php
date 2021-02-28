@@ -17,7 +17,7 @@ class CreateRespostasTable extends Migration
             $table->id();
             $table->string('resposta');
             $table->unsignedBigInteger('pergunta_id');
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('pergunta_id')->references('id')->on('perguntas');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
